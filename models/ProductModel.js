@@ -23,3 +23,7 @@ const productSchema = mongoose.Schema({
         timestamps: true
     }
 )
+
+const productModel= mongoose.model('Product', productSchema) // created model with parameters(model name and schema)
+
+module.exports = productModel
