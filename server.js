@@ -54,21 +54,38 @@ app.post('/products', async (req, res) => {
     }
 })
 
-// update a product
-app.put('/products/:id',async(req,res)=>{
+// update a product by id from database
+app.put('/products/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        const product = await productModel.findByIdAndUpdate(id,req.body)
+        const { id } = req.params
+        const product = await productModel.findByIdAndUpdate(id, req.body)
         // we cannot find any product in database
-        if(!product){
-            return res.status(404).json({message: `cannot find any product with ID ${id}`})
+        if (!product) {
+            return res.status(404).json({ message: `cannot find any product with ID ${id}` })
         }
-        else{
+        else {
             const updatedProduct = await productModel.findById(id)
             res.status(200).json(updatedProduct)
         }
     } catch (error) {
-        res.status(500).json({message:error.message})
+        res.status(500).json({ message: error.message })
+    }
+})
+
+// Delete a product by id from database
+
+app.delete('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await productModel.findByIdAndDelete(id)
+        if (!product) {
+            return res.status(404).json({ message: `cannot find any product with ID ${id}` })
+        }
+        else {
+            res.status(200).json(product)
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
     }
 })
 
