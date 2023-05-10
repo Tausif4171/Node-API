@@ -20,10 +20,23 @@ app.get('/blog', (req, res) => {
 
 app.get('/products', async (req, res) => {
     try {
-        const product = await productModel.find({}) // all products from database that's why we have given an empty object
+        const products = await productModel.find({}) // all products from database that's why we have given an empty object
+        res.status(200).json(products)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+// get a single product from database
+
+app.get('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await productModel.findById(id)
         res.status(200).json(product)
     }
-    catch {
+    catch (error) {
         res.status(500).json({ message: error.message })
     }
 })
