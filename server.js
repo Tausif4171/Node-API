@@ -16,6 +16,19 @@ app.get('/blog', (req, res) => {
     res.send('Hii')
 })
 
+// get all products from database
+
+app.get('/products', async (req, res) => {
+    try {
+        const product = await productModel.find({}) // all products from database that's why we have given an empty object
+        res.status(200).json(product)
+    }
+    catch {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+// create or save product in database
 app.post('/products', async (req, res) => {
     try {
         const product = await productModel.create(req.body)
